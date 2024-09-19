@@ -9,13 +9,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:sun',
         link: '/admin/estimate/list',
     },
-    {
-        id: 'admin.estimate-check',
-        title: 'รายการประเมิน',
-        type: 'basic',
-        icon: 'heroicons_outline:newspaper',
-        link: '/admin/estimate-check/list',
-    },
+    // {
+    //     id: 'admin.estimate-check',
+    //     title: 'รายการประเมิน',
+    //     type: 'basic',
+    //     icon: 'heroicons_outline:newspaper',
+    //     link: '/admin/estimate-check/list',
+    // },
     {
         id: 'admin.member',
         title: 'ผู้ลงทะเบียน',
