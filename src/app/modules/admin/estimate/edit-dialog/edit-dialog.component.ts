@@ -1,4 +1,7 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectorRef, Component, Inject, OnInit, ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -14,12 +17,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule, ThemePalette } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+
 @Component({
     selector: 'app-edit-dialog',
     templateUrl: './edit-dialog.component.html',
@@ -46,7 +51,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         CommonModule,
         MatSlideToggleModule,
         MatCardModule,
-        NgxDropzoneModule
+        NgxDropzoneModule,
+        DataTablesModule 
     ],
 })
 export class EditDialogComponent implements OnInit {
@@ -58,17 +64,21 @@ export class EditDialogComponent implements OnInit {
     status: any[] = [
         {
             id: 1,
-            name : 'เปิดใช้งาน'
-        },{
-        id: 0,
-        name : 'ไม่เปิดใช้งาน'
-    },
-];
-color: ThemePalette = 'primary';
-checked = false;
-disabled = false;
-isInputDisabled: boolean = true;
-permissions: any[] = [];
+            name: 'เปิดใช้งาน'
+        }, {
+            id: 0,
+            name: 'ไม่เปิดใช้งาน'
+        },
+    ];
+    color: ThemePalette = 'primary';
+    checked = false;
+    disabled = false;
+    isInputDisabled: boolean = true;
+    permissions: any[] = [];
+    public dtOptions: DataTables.Settings = {};
+
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
     constructor(private dialogRef: MatDialogRef<EditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
@@ -81,19 +91,14 @@ permissions: any[] = [];
         });
         this.editForm = this.formBuilder.group({
             id: '',
-            name: [''],
-            phone: [''],
-            email: [''],
-            type: [''],
-            password: [''],
-            factories: this.formBuilder.array([]),
+            detail: [''],
         });
-     }
+    }
 
     ngOnInit(): void {
         this.editForm.patchValue({
             ...this.data.data,
-            image : ''
+            image: ''
         })
         console.log(this.editForm.value)
     }
@@ -201,18 +206,26 @@ permissions: any[] = [];
 
     addFactory(factoryId: number) {
         const factories = this.editForm.get('factories') as FormArray;
-    
+
         // ตรวจสอบว่า factoryId มีอยู่ใน FormArray หรือไม่
         const index = factories.value.findIndex((value: any) => value.factorie_id === factoryId);
-    
+
         if (index === -1) {
             const value = this.formBuilder.group({
                 factorie_id: factoryId,
-            }); 
-          factories.push(value);
+            });
+            factories.push(value);
         } else {
-          // ถ้ามีอยู่แล้วให้ลบออก
-          factories.removeAt(index);
+            // ถ้ามีอยู่แล้วให้ลบออก
+            factories.removeAt(index);
         }
-      }
+    }
+
+    @ViewChild(DataTableDirective)
+    dtElement!: DataTableDirective;
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 }

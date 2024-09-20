@@ -26,7 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
@@ -63,7 +63,9 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
-    positions: any[];
+    hospital: any[];
+    id:number;
+    data = new FormControl('1');
     public dataRow: any[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -71,17 +73,21 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.loadTable();
-        // this._service.getPosition().subscribe((resp: any)=>{
-        //     this.positions = resp.data
-        // })
+        this._service.getHospital().subscribe((resp: any) => {
+            this.hospital = resp.data
+        })
     }
 
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
+    }
+
+    export() {
+        window.open('https://asha-tech.co.th/thaicancel/public/api/member_excel/' + this.id);
     }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
@@ -177,4 +183,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
+
+    onHospitalChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        // Handle the change event, e.g., store the value or make an API call
+        this.id = selectedValue;
+    }
 }

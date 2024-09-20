@@ -63,7 +63,7 @@ export class FormDialogComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
-    positions: any[];
+    hospital: any[];
     permissions: any[];
     factory: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
@@ -84,26 +84,21 @@ export class FormDialogComponent implements OnInit {
             name: [''],
             phone: [''],
             email: [''],
-            type: [''],
+            hospital_id: [1],
+            username: [''],
             password: [''],
-            factories: this.formBuilder.array([]),
         });
     }
 
     ngOnInit(): void {
+        this._service.getHospital().subscribe((resp: any) => {
+            this.hospital = resp.data
+        })
         if (this.data) {
             this.addForm.patchValue({
                 ...this.data,
             });
 
-            this.data.factories.forEach((data: any) => {
-                const factories = this.addForm.get('factories') as FormArray;
-                const a = this.formBuilder.group({
-                    factorie_id: data.factorie_id,
-                });
-                factories.push(a);
-            });
-            console.log('data', this.addForm.value);
 
             this._changeDetectorRef.detectChanges();
         }
@@ -137,7 +132,7 @@ export class FormDialogComponent implements OnInit {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-              
+
                 this._service.create(this.addForm.value).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
@@ -221,18 +216,18 @@ export class FormDialogComponent implements OnInit {
 
     addFactory(factoryId: number) {
         const factories = this.addForm.get('factories') as FormArray;
-    
+
         // ตรวจสอบว่า factoryId มีอยู่ใน FormArray หรือไม่
         const index = factories.value.findIndex((value: any) => value.factorie_id === factoryId);
-    
+
         if (index === -1) {
             const value = this.formBuilder.group({
                 factorie_id: factoryId,
-            }); 
-          factories.push(value);
+            });
+            factories.push(value);
         } else {
-          // ถ้ามีอยู่แล้วให้ลบออก
-          factories.removeAt(index);
+            // ถ้ามีอยู่แล้วให้ลบออก
+            factories.removeAt(index);
         }
-      }
+    }
 }

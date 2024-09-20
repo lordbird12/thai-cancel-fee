@@ -14,20 +14,6 @@
             <div class="text-xl font-extrabold tracking-tight sm:ml-4">รายการหัวข้อประเมิน</div>
 
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-
-                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
-                    <mat-select>
-                        <mat-option [value]="''">
-                            เลือกสถานะ
-                        </mat-option>
-                        <mat-option [value]="'active'">
-                            Active
-                        </mat-option>
-                        <mat-option [value]="'inactive'">
-                            Inactive
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
                 <button class="ml-4 w-full rounded-md bg-[#0a1c3a] text-white" mat-flat-button (click)="addElement()">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     <span class="ml-2 mr-1">เพิ่มหัวข้อประเมิน</span>
@@ -39,10 +25,10 @@
                 <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full">
                     <thead>
                         <tr class="text-center bg-slate-50 mt-10">
-                            <th class="border-bottom-0 w-50">ลำดับ</th>
-                            <th class="border-bottom-0 w-150">หัวข้อประเมิน</th>
+                            <th class="border-bottom-0 w-20">ลำดับ</th>
+                            <th class="border-bottom-0 w-250">หัวข้อประเมิน</th>
                             <th class="border-bottom-0 w-50">จำนวนประเมิน</th>
-                            <th class="border-bottom-0 w-50">สถานะ</th>
+                            <th class="border-bottom-0 w-20">สถานะ</th>
                             <th class="border-bottom-0 w-50"></th>
                         </tr>
                     </thead>

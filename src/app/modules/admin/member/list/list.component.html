@@ -1,5 +1,6 @@
 <div class="flex flex-col flex-auto min-w-0">
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-5 sm:py-6 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-5 sm:py-6 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Breadcrumbs -->
             <div class="flex flex-wrap items-center font-medium">
@@ -14,21 +15,17 @@
             <div class="text-xl font-extrabold tracking-tight sm:ml-4">รายชื่อผู้ลงทะเบียน</div>
 
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-
-                <!-- <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
-                    <mat-select>
-                        <mat-option [value]="''">
-                            เลือกสถานะ
+                 <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                    <mat-select [formControl]="data" (selectionChange)="onHospitalChange($event)">
+                        <mat-option [value]="'1'">
+                            เลือกโรงพยาบาล
                         </mat-option>
-                        <mat-option [value]="'active'">
-                            Active
-                        </mat-option>
-                        <mat-option [value]="'inactive'">
-                            Inactive
+                        <mat-option *ngFor="let item of this.hospital;" [value]="item.id">
+                            {{item.name}}
                         </mat-option>
                     </mat-select>
-                </mat-form-field> -->
-                <button class="ml-4 w-full rounded-md bg-green text-white" mat-flat-button (click)="addElement()">
+                </mat-form-field>
+                <button class="ml-4 w-full rounded-md bg-[#0a1c3a] text-white" mat-flat-button (click)="export()">
                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                     <span class="ml-2 mr-1">Excel</span>
                 </button>
@@ -49,7 +46,7 @@
                             <th class="border-bottom-0 w-50">เขต</th>
                             <th class="border-bottom-0 w-50">จังหวัด</th>
                             <th class="border-bottom-0 w-50">โรงพยาบาล</th>
-                            <th class="border-bottom-0 w-50"></th>
+                            <th class="border-bottom-0 w-50">ที่อยู่</th>
                         </tr>
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0">
@@ -64,11 +61,7 @@
                             <td>{{item?.khet?.name}}</td>
                             <td>{{item?.province?.name}}</td>
                             <td>{{item?.hospital?.name}}</td>
-                            <td>
-                                <button class="border-2 border-green-200 w-full rounded-md p-2 font-black hover:bg-slate-50" (click)="editDialog(item)">
-                                    <span class="ml-2 mr-1">แก้ไข</span>
-                                </button>
-                            </td>
+                            <td>{{item?.address}}</td>
                         </tr>
                     </tbody>
                     <tbody *ngIf="dataRow?.length == 0">

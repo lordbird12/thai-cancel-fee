@@ -48,7 +48,7 @@ export class PageService {
 
     create(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/user', data)
+            .post<any>(environment.baseURL + '/api/estimate', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -68,7 +68,7 @@ export class PageService {
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/update_user/' + id, data)
+            .put<any>(environment.baseURL + '/api/estimate/' + id, data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -78,7 +78,7 @@ export class PageService {
 
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
-            environment.baseURL + '/api/employees/' + id,
+            environment.baseURL + '/api/estimate/' + id,
             { headers: this.httpOptionsFormdata.headers }
         );
     }

@@ -83,9 +83,9 @@ export class PageService {
         );
     }
 
-    getPosition(): Observable<any> {
+    getHospital(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/positions')
+            .get<any>(environment.baseURL + '/api/get_hospital')
             .pipe(
                 tap((result) => {
                     this._data.next(result);

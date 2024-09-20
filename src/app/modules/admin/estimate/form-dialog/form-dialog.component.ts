@@ -81,12 +81,7 @@ export class FormDialogComponent implements OnInit {
         });
         this.addForm = this.formBuilder.group({
             id: '',
-            name: [''],
-            phone: [''],
-            email: [''],
-            type: [''],
-            password: [''],
-            factories: this.formBuilder.array([]),
+            detail: [''],
         });
     }
 
@@ -96,14 +91,6 @@ export class FormDialogComponent implements OnInit {
                 ...this.data,
             });
 
-            this.data.factories.forEach((data: any) => {
-                const factories = this.addForm.get('factories') as FormArray;
-                const a = this.formBuilder.group({
-                    factorie_id: data.factorie_id,
-                });
-                factories.push(a);
-            });
-            console.log('data', this.addForm.value);
 
             this._changeDetectorRef.detectChanges();
         }
