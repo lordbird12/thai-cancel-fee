@@ -44,14 +44,43 @@
                     </mat-form-field>
                 </div>
             </div>
-
+            <div class="mb-4 mt-4">
+                <label class="block text-md font-medium text-gray-700">เขต</label>
+                <div class="mt-1 ">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-select [formControlName]="'dataKhet'" (selectionChange)="onKhetChange($event)" >
+                            <mat-option [value]="''">
+                                เลือกเขต
+                            </mat-option>
+                            <mat-option *ngFor="let item of this.khet;" [value]="item.id" >
+                                {{item.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="mb-4 mt-4">
+                <label class="block text-md font-medium text-gray-700">จังหวัด</label>
+                <div class="mt-1 ">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-select [formControlName]="'dataProvince'" (selectionChange)="onProvinceChange($event)">
+                            <mat-option [value]="''">
+                                เลือกจังหวัด
+                            </mat-option>
+                            <mat-option *ngFor="let item of this.province;" [value]="item.id">
+                                {{item.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
 
             <div class="mb-4 mt-4">
                 <label class="block text-md font-medium text-gray-700">โรงพยาบาลพยาบาล</label>
                 <div class="mt-1 ">
                     <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                         <mat-select [formControlName]="'hospital_id'">
-                            <mat-option [value]="'1'">
+                            <mat-option [value]="null">
                                 เลือกโรงพยาบาล
                             </mat-option>
                             <mat-option *ngFor="let item of this.hospital;" [value]="item.id">

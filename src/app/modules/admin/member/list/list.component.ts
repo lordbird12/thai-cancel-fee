@@ -63,9 +63,13 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
+    khet: any[];
+    province: any[];
     hospital: any[];
     id:number;
-    data = new FormControl('1');
+    data = new FormControl('');
+    dataProvince = new FormControl('');
+    dataHospital = new FormControl('');
     public dataRow: any[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -77,9 +81,13 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
-        this._service.getHospital().subscribe((resp: any) => {
-            this.hospital = resp.data
+        this._service.getKhet().subscribe((resp: any) => {
+            this.khet = resp.data
         })
+        
+        // this._service.getHospital().subscribe((resp: any) => {
+        //     this.hospital = resp.data
+        // })
     }
 
     ngAfterViewInit(): void {
@@ -137,6 +145,9 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.khet_id = this.data.value;
+                dataTablesParameters.province_id = this.dataProvince.value;
+                dataTablesParameters.hospital_id = this.dataHospital.value;
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -184,9 +195,28 @@ export class ListComponent implements OnInit, AfterViewInit {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
 
+    onKhetChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this._service.getProvince(selectedValue).subscribe((resp: any) => {
+            this.province = resp.data
+        })
+        this.dataProvince.patchValue('')
+        this.rerender()
+    }
+
+    onProvinceChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this._service.getHospital(selectedValue).subscribe((resp: any) => {
+            this.hospital = resp.data
+        })
+        this.dataHospital.patchValue('')
+        this.rerender()
+    }
+
     onHospitalChange(event: MatSelectChange) {
         const selectedValue = event.value;
-        // Handle the change event, e.g., store the value or make an API call
         this.id = selectedValue;
+        this.rerender()
+    
     }
 }

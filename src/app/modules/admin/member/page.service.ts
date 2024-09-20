@@ -32,7 +32,7 @@ export class PageService {
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient) {}
+    constructor(private _httpClient: HttpClient) { }
 
     httpOptionsFormdata = {
         headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
@@ -83,9 +83,30 @@ export class PageService {
         );
     }
 
-    getHospital(): Observable<any> {
+    getKhet(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_hospital')
+            .get<any>(environment.baseURL + '/api/get_khet')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    getProvince(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_province/' + id
+            )
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    getHospital(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_hospital/' + id)
             .pipe(
                 tap((result) => {
                     this._data.next(result);

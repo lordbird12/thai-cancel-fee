@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
     FormArray,
     FormBuilder,
+    FormControl,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
@@ -23,7 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
@@ -68,6 +69,12 @@ export class FormDialogComponent implements OnInit {
     factory: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
+    khet: any[];
+    province: any[];
+    id:number;
+    dataKhet = new FormControl('');
+    dataProvince = new FormControl('');
+    dataHospital = new FormControl('');
     constructor(
         private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -84,15 +91,17 @@ export class FormDialogComponent implements OnInit {
             name: [''],
             phone: [''],
             email: [''],
-            hospital_id: [1],
+            hospital_id: [null],
+            dataKhet: [null],
+            dataProvince: [null],
             username: [''],
             password: [''],
         });
     }
 
     ngOnInit(): void {
-        this._service.getHospital().subscribe((resp: any) => {
-            this.hospital = resp.data
+        this._service.getKhet().subscribe((resp: any) => {
+            this.khet = resp.data
         })
         if (this.data) {
             this.addForm.patchValue({
@@ -229,5 +238,32 @@ export class FormDialogComponent implements OnInit {
             // ถ้ามีอยู่แล้วให้ลบออก
             factories.removeAt(index);
         }
+    }
+
+    onKhetChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this._service.getProvince(selectedValue).subscribe((resp: any) => {
+            this.province = resp.data
+        })
+        this.dataProvince.patchValue('')
+    }
+
+    onProvinceChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this._service.getHospital(selectedValue).subscribe((resp: any) => {
+            this.hospital = resp.data
+        })
+      
+    }
+
+    onHospitalChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this.addForm.patchValue(
+            {
+                hospital_id: selectedValue
+            }
+        )
+        this.id = selectedValue;
+    
     }
 }

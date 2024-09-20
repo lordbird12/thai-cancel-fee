@@ -13,11 +13,30 @@
     <div class="bg-card m-5 p-5 rounded-lg">
         <div class="flex justify-between">
             <div class="text-xl font-extrabold tracking-tight sm:ml-4">รายชื่อผู้ลงทะเบียน</div>
-
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                 <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
-                    <mat-select [formControl]="data" (selectionChange)="onHospitalChange($event)">
-                        <mat-option [value]="'1'">
+                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                    <mat-select [formControl]="data" (selectionChange)="onKhetChange($event)">
+                        <mat-option [value]="''">
+                            เลือกเขต
+                        </mat-option>
+                        <mat-option *ngFor="let item of this.khet;" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                    <mat-select [formControl]="dataProvince" (selectionChange)="onProvinceChange($event)">
+                        <mat-option [value]="''">
+                            เลือกจังหวัด
+                        </mat-option>
+                        <mat-option *ngFor="let item of this.province;" [value]="item.id">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                    <mat-select [formControl]="dataHospital" (selectionChange)="onHospitalChange($event)">
+                        <mat-option [value]="''">
                             เลือกโรงพยาบาล
                         </mat-option>
                         <mat-option *ngFor="let item of this.hospital;" [value]="item.id">
