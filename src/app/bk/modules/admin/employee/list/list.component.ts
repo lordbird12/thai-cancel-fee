@@ -105,7 +105,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     addElement() {
         const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '700px', // กำหนดความกว้างของ Dialog
-            height: 'auto',
+            height: '800px',
             disableClose: false,
             autoFocus: false,
         });
