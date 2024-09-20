@@ -75,6 +75,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
+        
         // this._service.getPosition().subscribe((resp: any)=>{
         //     this.positions = resp.data
         // })
@@ -86,7 +87,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editDialog(element: any) {
-        const dialogRef = this.dialog.open(EditDialogComponent, {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '700px', // กำหนดความกว้างของ Dialog
             height: 'auto',
             disableClose: false,

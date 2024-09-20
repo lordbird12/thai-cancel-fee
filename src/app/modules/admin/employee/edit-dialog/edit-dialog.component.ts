@@ -99,69 +99,72 @@ permissions: any[] = [];
     }
 
     onSaveClick(): void {
-        this.flashMessage = null;
-        const confirmation = this._fuseConfirmationService.open({
-            "title": "แก้ไขข้อมูล",
-            "message": "คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
-            },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+        if(this.data.type === 'EDIT') {
+            this.flashMessage = null;
+            const confirmation = this._fuseConfirmationService.open({
+                "title": "แก้ไขข้อมูล",
+                "message": "คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ",
+                "icon": {
+                    "show": false,
+                    "name": "heroicons_outline:exclamation",
+                    "color": "warning"
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
-            },
-            "dismissible": true
-        });
-
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                const updatedData = this.editForm.value;
-                this._service.update(updatedData, this.data.data.id).subscribe({
-                    next: (resp: any) => {
-                        this.showFlashMessage('success');
-                        this.dialogRef.close(resp);
+                "actions": {
+                    "confirm": {
+                        "show": true,
+                        "label": "ยืนยัน",
+                        "color": "primary"
                     },
-                    error: (err: any) => {
-                        this.editForm.enable();
-                        this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
-                            },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
-                                },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-
-                                }
-                            },
-                            "dismissible": true
-                        });
+                    "cancel": {
+                        "show": true,
+                        "label": "ยกเลิก"
                     }
-                })
-            }
-        })
+                },
+                "dismissible": true
+            });
+    
+            // Subscribe to the confirmation dialog closed action
+            confirmation.afterClosed().subscribe((result) => {
+                if (result === 'confirmed') {
+                    const updatedData = this.editForm.value;
+                    this._service.update(updatedData, this.data.data.id).subscribe({
+                        next: (resp: any) => {
+                            this.showFlashMessage('success');
+                            this.dialogRef.close(resp);
+                        },
+                        error: (err: any) => {
+                            this.editForm.enable();
+                            this._fuseConfirmationService.open({
+                                "title": "กรุณาระบุข้อมูล",
+                                "message": err.error.message,
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:exclamation",
+                                    "color": "warning"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ยืนยัน",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก",
+    
+                                    }
+                                },
+                                "dismissible": true
+                            });
+                        }
+                    })
+                }
+            })
+        } else {
 
+        }
+        
 
-        // แสดง Snackbar ข้อความ "complete"
 
     }
 
