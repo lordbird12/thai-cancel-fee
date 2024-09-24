@@ -3,6 +3,13 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id: 'dashboard.estimate',
+        title: 'Dashboard',
+        type: 'basic',
+        icon: 'heroicons_outline:chart-bar',
+        link: '/admin/dashboard',
+    },
+    {
         id: 'admin.estimate',
         title: 'หัวข้อประเมิน',
         type: 'basic',

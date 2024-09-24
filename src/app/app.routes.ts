@@ -9,7 +9,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
     // Redirect empty path to '/dashboards/project'
-    { path: '', pathMatch: 'full', redirectTo: 'admin/member/list' },
+    { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
 
     // Redirect signed-in user to the '/dashboards/project'
     //
@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
     {
         path: 'signed-in-redirect',
         pathMatch: 'full',
-        redirectTo: 'admin/member/list',
+        redirectTo: 'admin/dashboard',
     },
 
     // Auth routes for guests
@@ -117,6 +117,11 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver,
         },
         children: [
+            {
+                path: 'dashboard',
+                loadChildren: () =>
+                    import('app/modules/admin/dashboard/dashboard.routes'),
+            },
             // Dashboards
             {
                 path: 'profile',
