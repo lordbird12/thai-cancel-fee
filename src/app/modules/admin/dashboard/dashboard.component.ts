@@ -20,7 +20,7 @@ import { items } from 'app/mock-api/apps/file-manager/data';
 import { registerLocaleData } from '@angular/common';
 import localeTh from '@angular/common/locales/th';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 type ApexXAxis1 = {
     type?: "category" | "datetime" | "numeric";
@@ -150,6 +150,11 @@ export class DashboardComponent {
     userData: any = JSON.parse(localStorage.getItem('user'))
     permission_id: any;
 
+    total1: number;
+    total2: number;
+    total3: number;
+    total4: number;
+
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions3: Partial<ChartOptions>;
     public chartOptions4: Partial<ChartOptionsSpline>;
@@ -164,17 +169,17 @@ export class DashboardComponent {
             branchIds: [['']]
         })
         this.tranferData()
-
+        this.GetDashboard()
         this.service.getKhet().subscribe((resp: any) => {
             this.khet = resp.data
         })
 
         this.service.getBranchNames().subscribe({
-            next: (names) =>{
+            next: (names) => {
                 this.branchNames = names;
                 this.foods = this.branchNames;
-            },error(err) {
-                console.log('err: ',err);
+            }, error(err) {
+                console.log('err: ', err);
                 this.toastr.error('เกิดข้อผิดพลาด')
             },
         });
@@ -184,7 +189,7 @@ export class DashboardComponent {
         this.userdata = JSON.parse(localStorage.getItem('user'))
 
         this.service.getBranch().subscribe({
-            next:(resp: any)=> {
+            next: (resp: any) => {
                 this.branchesData = resp
                 this.allbranchData = resp
             }
@@ -192,13 +197,13 @@ export class DashboardComponent {
         this.chartOptions3 = {
             series: [{
                 name: "จำนวนเงิน",
-                data: [0,0,0]
+                data: [0, 0, 0]
             }],
             chart: {
                 height: 350,
                 type: "bar",
                 events: {
-                    click: function(chart, w, e) {
+                    click: function (chart, w, e) {
                         // console.log(chart, w, e)
                     }
                 }
@@ -229,7 +234,7 @@ export class DashboardComponent {
                 show: false
             },
             xaxis: {
-                categories: [ ],
+                categories: [],
                 labels: {
                     style: {
                         colors: [
@@ -264,97 +269,72 @@ export class DashboardComponent {
             },
             series: [
                 {
-                    name: "series1",
-                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    name: "ผู้ใช้งาน",
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 },
-                {
-                    name: "series2",
-                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                },
-                {
-                    name: "series3",
-                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                },
+                // {
+                //     name: "series2",
+                //     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                // },
+                // {
+                //     name: "series3",
+                //     data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                // },
             ],
             chart: {
-              height: 400,
-              type: "area",
-              toolbar: {
-                tools: {
-                    zoom: false,
-                    zoomin: false,
-                    zoomout: false,
-                    pan: false,
-                    reset: false,
+                height: 400,
+                type: "area",
+                toolbar: {
+                    tools: {
+                        zoom: false,
+                        zoomin: false,
+                        zoomout: false,
+                        pan: false,
+                        reset: false,
+                    }
                 }
-              }
             },
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             stroke: {
-              curve: "smooth"
+                curve: "smooth"
             },
             xaxis: {
-              type: "category",
-              categories: [
-                "00:00",
-                "01:00",
-                "02:00",
-                "03:00",
-                "04:00",
-                "05:00",
-                "06:00",
-                "07:00",
-                "08:00",
-                "09:00",
-                "10:00",
-                "11:00",
-                "12:00",
-                "13:00",
-                "14:00",
-                "15:00",
-                "16:00",
-                "17:00",
-                "18:00",
-                "19:00",
-                "20:00",
-                "21:00",
-                "22:00",
-                "23:00",
-                "24:00",
-              ],
-              labels: {
-                style: {
-                    colors: [
-                        "#955a9c",
-                        "#33FF57",
-                        "#3357FF",
-                        "#efb8fc",
-                        "#00bff1",
-                        "#FEB019",
-                        "#FF4560",
-                        "#775DD0",
-                        "#1ff7b8",
-                        "#AF6E5A",
-                        "#26a69a",
-                        "#FF5733",
-                        "#955a9c",
-                        "#33FF57",
-                        "#3357FF",
-                        "#efb8fc",
-                        "#00bff1",
-                        "#FEB019",
-                        "#FF4560",
-                        "#775DD0",
-                        "#1ff7b8",
-                        "#AF6E5A",
-                        "#26a69a",
-                        "#FF5733",
-                    ],
-                    fontSize: "12px"
+                type: "category",
+                categories: [
+                    "มกราคม",
+                    "กุมภาพันธ์",
+                    "มีนาคม",
+                    "เมษายน",
+                    "พฤษภาคม",
+                    "มิถุนายน",
+                    "กรกฎาคม",
+                    "สิงหาคม",
+                    "กันยายน",
+                    "ตุลาคม",
+                    "พฤศจิกายน",
+                    "ธันวาคม"
+                ],
+                labels: {
+                    style: {
+                        colors: [
+                            "#955a9c",
+                            "#33FF57",
+                            "#3357FF",
+                            "#efb8fc",
+                            "#00bff1",
+                            "#FEB019",
+                            "#FF4560",
+                            "#775DD0",
+                            "#1ff7b8",
+                            "#AF6E5A",
+                            "#26a69a",
+                            "#FF5733",
+                        ],
+                        fontSize: "12px"
+                    }
                 }
-            }
             },
             //tooltip: {
             //  x: {
@@ -370,6 +350,112 @@ export class DashboardComponent {
             this.province = resp.data
         })
         this.dataProvince.patchValue('')
+    }
+
+    GetDashboard() {
+        this.service.getDashboard1().subscribe((resp: any) => {
+            console.log(resp.data, 'resp');
+            this.total1 = resp.data.all?.total1
+            this.total2 = resp.data.all?.total2
+            this.total3 = resp.data.all?.total3
+            this.total4 = resp.data.all?.total4
+            let graphArray: any[] = Object.values(resp.data.graph);
+            console.log(graphArray, 'graphArray');
+
+            this.chartOptions4 = {
+                title: {
+                    text: "สรุปยอดการใช้จ่าย",
+                    align: "left",
+                    style: {
+                        fontSize: '19px',
+                        fontWeight: '700',
+                        color: 'black'
+                    }
+                },
+                subtitle: {
+                    text: '',//`วันที่ ${this.datepipe.transform(new Date(), 'dd/MM/yyyy')}`,
+                    align: "left"
+                },
+                series: [
+                    {
+                        name: 'ยอดผู้ใช้งาน',
+                        data: graphArray
+                    },
+                    // {
+                    //     name: this.dailyDataN[1],
+                    //     data: this.dailyDataV1
+                    // },
+                    // {
+                    //     name: this.dailyDataN[2],
+                    //     data: this.dailyDataV2
+                    // }
+                ],
+                chart: {
+                    height: 400,
+                    type: "area",
+                    toolbar: {
+                        tools: {
+                            zoom: false,
+                            zoomin: false,
+                            zoomout: false,
+                            pan: false,
+                            reset: false,
+                        }
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: "smooth"
+                },
+                xaxis: {
+                    type: "category",
+                    categories: [
+                        "มกราคม",
+                        "กุมภาพันธ์",
+                        "มีนาคม",
+                        "เมษายน",
+                        "พฤษภาคม",
+                        "มิถุนายน",
+                        "กรกฎาคม",
+                        "สิงหาคม",
+                        "กันยายน",
+                        "ตุลาคม",
+                        "พฤศจิกายน",
+                        "ธันวาคม"
+                    ],
+                    labels: {
+                        style: {
+                            colors: [
+                                "#955a9c",
+                                "#33FF57",
+                                "#3357FF",
+                                "#efb8fc",
+                                "#00bff1",
+                                "#FEB019",
+                                "#FF4560",
+                                "#775DD0",
+                                "#1ff7b8",
+                                "#AF6E5A",
+                                "#26a69a",
+                                "#FF5733",
+                            ],
+                            fontSize: "12px"
+                        }
+                    }
+                },
+            };
+            // Update chart options using chart component methods if necessary
+            if (this.chart) {
+                //this.chart.updateOptions(this.chartOptions);
+                //this.chart.updateOptions(this.chartOptions2);
+                // this.chart.updateOptions(this.chartOptions3);
+                this.chart.updateOptions(this.chartOptions4);
+            }
+            // Trigger change detection explicitly if needed
+            this.cd.detectChanges();
+        })
     }
 
     onProvinceChange(event: MatSelectChange) {
@@ -400,29 +486,34 @@ export class DashboardComponent {
         return series;
     }
 
-    onCheckboxChange(){
+    onCheckboxChange() {
         this.tranferData()
     }
 
     tranferData() {
-        if(this.form.value.startDate && this.form.value.endDate){
+        if (this.form.value.startDate && this.form.value.endDate) {
             let formvalue = this.form.value
             console.log(formvalue);
-            formvalue.branchIds = formvalue.branchIds.filter(item=> item !== '' && item !== 'all')
+            formvalue.branchIds = formvalue.branchIds.filter(item => item !== '' && item !== 'all')
             formvalue.startDate = this.datepipe.transform(formvalue.startDate, 'yyyy-MM-dd')
             formvalue.endDate = this.datepipe.transform(formvalue.endDate, 'yyyy-MM-dd')
             console.log(`startdate : ${formvalue.startDate} | endDate : ${formvalue.endDate}`);
-            this.service.getDashboardOverview(formvalue).subscribe({
-                next:(resp: any)=> {
+            this.service.getDashboard1().subscribe({
+                next: (resp: any) => {
                     console.log("resp trans :", resp);
-                    
-                    this.total = resp.overallPaidAndOrderQuantity?.totalPaidAmount;
-                    this.bill = resp.overallPaidAndOrderQuantity?.paidOrderCount;
-                    this.piece = resp.overallPaidAndOrderQuantity?.productQuantitySold;
-                    this.voidBill = resp.overallPaidAndOrderQuantity?.voidOrderCount;
-    
+
+                    // this.total = resp.overallPaidAndOrderQuantity?.totalPaidAmount;
+                    // this.bill = resp.overallPaidAndOrderQuantity?.paidOrderCount;
+                    // this.piece = resp.overallPaidAndOrderQuantity?.productQuantitySold;
+                    // this.voidBill = resp.overallPaidAndOrderQuantity?.voidOrderCount;
+
+                    // this.total = resp.
+                    // this.bill = resp.overallPaidAndOrderQuantity?.paidOrderCount;
+                    // this.piece = resp.overallPaidAndOrderQuantity?.productQuantitySold;
+                    // this.voidBill = resp.overallPaidAndOrderQuantity?.voidOrderCount;
+
                     this.productSale = resp.top10Products;
-                    if (this.productSale.length < 10){
+                    if (this.productSale.length < 10) {
                         for (let i = this.productSale.length; i < 10; i++) {
                             let temp = {
                                 name: '-',
@@ -433,7 +524,7 @@ export class DashboardComponent {
                         }
                     }
                     this.productCategory = resp.top10Category;
-                    if (this.productCategory.length < 10){
+                    if (this.productCategory.length < 10) {
                         for (let i = this.productCategory.length; i < 10; i++) {
                             let temp = {
                                 name: '-',
@@ -445,16 +536,16 @@ export class DashboardComponent {
                     }
                     this.paymentValue = resp.sumPayment?.map(item => item?.value);
                     this.paymentName = resp.sumPayment?.map(item => item?.name);
-    
+
                     //this.monthlyDataM = resp.monthlyData?.map(item => this.datepipe.transform(item?.date,'MMM yyyy'));
                     //this.monthlyDataV = resp.monthlyData?.map(item => item?.total)
-                    this.dailyDataT = resp.bestTimeSeller?.map(item => this.datepipe.transform(item?.datetime,'HH:mm'));
+                    this.dailyDataT = resp.bestTimeSeller?.map(item => this.datepipe.transform(item?.datetime, 'HH:mm'));
                     this.dailyDataN = resp.bestTimeSeller[0]?.paymentMethods.map(item => item.name)
-                    this.dailyDataV = resp.bestTimeSeller?.map(item => item.paymentMethods? item.paymentMethods[0].count ?? 0: 0)
-                    this.dailyDataV1 = resp.bestTimeSeller?.map(item => item.paymentMethods? item.paymentMethods[1].count ?? 0: 0)
-                    this.dailyDataV2 = resp.bestTimeSeller?.map(item => item.paymentMethods? item.paymentMethods[2].count ?? 0: 0)
+                    this.dailyDataV = resp.bestTimeSeller?.map(item => item.paymentMethods ? item.paymentMethods[0].count ?? 0 : 0)
+                    this.dailyDataV1 = resp.bestTimeSeller?.map(item => item.paymentMethods ? item.paymentMethods[1].count ?? 0 : 0)
+                    this.dailyDataV2 = resp.bestTimeSeller?.map(item => item.paymentMethods ? item.paymentMethods[2].count ?? 0 : 0)
                     //this.dailyDataV3 = resp.bestTimeSeller?.map(item => item.paymentMethods? item.paymentMethods[3].count ?? 0: 0)
-    
+
                     this.chartOptions3 = {
                         title: {
                             text: "วิธีการชำระเงิน",
@@ -474,7 +565,7 @@ export class DashboardComponent {
                             height: 350,
                             type: "bar",
                             events: {
-                                click: function(chart, w, e) {
+                                click: function (chart, w, e) {
                                     // console.log(chart, w, e)
                                 }
                             }
@@ -616,7 +707,7 @@ export class DashboardComponent {
                     }
                     // Trigger change detection explicitly if needed
                     this.cd.detectChanges();
-                }, error: ()=> {
+                }, error: () => {
                     console.log('เกิดข้อผิดพลาด');
                 }
             })
@@ -625,7 +716,7 @@ export class DashboardComponent {
 
     calculateFontSize(value: number): string {
         //value = 1000000
-        if (value <= 9999999){
+        if (value <= 9999999) {
             return '64px'
         } else {
             return '54px'
@@ -633,7 +724,7 @@ export class DashboardComponent {
     }
 
     check_allbranch: any = false
-    selectionBranchChanged(data: any){
+    selectionBranchChanged(data: any) {
         let temp_branchIds = data.filter(item => item !== '');
         const findAll = temp_branchIds.find(item => item === 'all');
 
@@ -646,38 +737,38 @@ export class DashboardComponent {
             });
         } else if (findAll !== undefined && this.check_allbranch == false) { // all ครั้งแรก
             this.check_allbranch = true
-            
+
             let branch_all = this.allbranchData.map(item => item.id)
             branch_all.push('all')
             this.form.patchValue({
                 branchIds: branch_all
             });
-        } else{
+        } else {
             this.form.patchValue({
                 branchIds: temp_branchIds
             });
         }
 
-        if (this.form.value.branchIds.length == 0){
+        if (this.form.value.branchIds.length == 0) {
             this.form.patchValue({
-                branchIds : ['']
+                branchIds: ['']
             })
         }
-        
+
         console.log('Selected Branch IDs:', this.form.get('branchIds')?.value);
         this.tranferData()
     }
 
-    checkNumber(value: any){
-        if (value >= 1000000000000){
+    checkNumber(value: any) {
+        if (value >= 1000000000000) {
             return this.decimalPipe.transform((value / 1000000000000).toFixed(2)) + 'T';
         }
-        else if (value >= 1000000000){
+        else if (value >= 1000000000) {
             return this.decimalPipe.transform((value / 1000000000).toFixed(2)) + 'B';
         }
-        else if (value >= 1000000){
+        else if (value >= 1000000) {
             return this.decimalPipe.transform((value / 1000000).toFixed(2), '1.0-0') + 'M';
-        }  
+        }
         return this.decimalPipe.transform(value);
     }
 }

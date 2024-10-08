@@ -82,4 +82,11 @@ export class DashboardService {
       map(data => data)
     );
   }
+
+  getDashboard1() {
+    return this.http.get<any>('https://asha-tech.co.th/thaicancel/public/api/dashboard/1/1/1/2567-01-01/2567-02-01',).pipe(
+      tap(data => this._dashboardData.next(data)),
+      map(data => data)
+    );
+  }
 }
