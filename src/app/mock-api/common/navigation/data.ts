@@ -4,10 +4,10 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'dashboard.estimate',
-        title: 'Dashboard',
+        title: 'สรุปผลภาพรวม',
         type: 'basic',
         icon: 'heroicons_outline:chart-bar',
-        link: '/admin/dashboard',
+        link: '/dashboard',
     },
     {
         id: 'admin.estimate',

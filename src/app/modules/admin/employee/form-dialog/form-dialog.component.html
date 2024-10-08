@@ -44,7 +44,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="mb-4 mt-4">
+            <div class="mb-4 mt-4" *ngIf="this.data">
                 <label class="block text-md font-medium text-gray-700">เขต</label>
                 <div class="mt-1 ">
                     <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
@@ -59,7 +59,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="mb-4 mt-4">
+            <div class="mb-4 mt-4" *ngIf="this.data">
                 <label class="block text-md font-medium text-gray-700">จังหวัด</label>
                 <div class="mt-1 ">
                     <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="mb-4 mt-4">
+            <div class="mb-4 mt-4" *ngIf="this.data">
                 <label class="block text-md font-medium text-gray-700">โรงพยาบาลพยาบาล</label>
                 <div class="mt-1 ">
                     <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
