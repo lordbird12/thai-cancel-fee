@@ -145,16 +145,18 @@ export class DashboardComponent {
     hospital: any[];
 
     form: FormGroup;
-    dataProvince = new FormControl('');
-    dataHospital = new FormControl('');
+    dataHospital: any;
+    dataProvince: any;
+    userData: any = JSON.parse(localStorage.getItem('user'))
+    permission_id: any;
+
     @ViewChild("chart") chart: ChartComponent;
-    //public chartOptions: Partial<ChartOptionsArea>;
-    //public chartOptions2: Partial<ChartOptions>;
     public chartOptions3: Partial<ChartOptions>;
     public chartOptions4: Partial<ChartOptionsSpline>;
     selectedProject: string = 'ACME Corp. Backend App';
 
     ngOnInit(): void {
+        this.permission_id = this.userData?.name
         this.form = this.fb.group({
             startDate: new Date(),
             endDate: new Date(),

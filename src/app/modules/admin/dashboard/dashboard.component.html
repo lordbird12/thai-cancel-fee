@@ -1,6 +1,6 @@
 <div class="flex flex-row flex-auto w-full min-w-0">
   <div class="flex-auto p-6 sm:p-10">
-    <div class="flex items-center" [formGroup]="form">
+    <div class="flex items-center" [formGroup]="form" *ngIf="this.permission_id === 'admin'">
       <div
         class="px-6 grid items-center pt-5 gap-6 mb-3 shadow bg-card rounded-2xl w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers"
