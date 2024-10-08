@@ -11,9 +11,9 @@ import { ApexTitleSubtitle, NgApexchartsModule } from 'ng-apexcharts';
 import { CommonModule, DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { CurrencyPipe } from '@angular/common';
 import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTooltip, ApexStroke, ApexPlotOptions, ApexYAxis, ApexLegend, ApexGrid } from "ng-apexcharts";
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DashboardService } from './dashboard.service';
 import { items } from 'app/mock-api/apps/file-manager/data';
@@ -138,9 +138,15 @@ export class DashboardComponent {
 
     branchesData: any;
     allbranchData: any;
+    userdata: any;
+
+    khet: any[];
+    province: any[];
+    hospital: any[];
 
     form: FormGroup;
-
+    dataProvince = new FormControl('');
+    dataHospital = new FormControl('');
     @ViewChild("chart") chart: ChartComponent;
     //public chartOptions: Partial<ChartOptionsArea>;
     //public chartOptions2: Partial<ChartOptions>;
@@ -157,6 +163,10 @@ export class DashboardComponent {
         })
         this.tranferData()
 
+        this.service.getKhet().subscribe((resp: any) => {
+            this.khet = resp.data
+        })
+
         this.service.getBranchNames().subscribe({
             next: (names) =>{
                 this.branchNames = names;
@@ -169,6 +179,8 @@ export class DashboardComponent {
     }
 
     constructor(private service: DashboardService, private cd: ChangeDetectorRef, private datepipe: DatePipe, private fb: FormBuilder, private decimalPipe: DecimalPipe) {
+        this.userdata = JSON.parse(localStorage.getItem('user'))
+
         this.service.getBranch().subscribe({
             next:(resp: any)=> {
                 this.branchesData = resp
@@ -348,6 +360,28 @@ export class DashboardComponent {
             //  }
             //}
         };
+    }
+
+    onKhetChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this.service.getProvince(selectedValue).subscribe((resp: any) => {
+            this.province = resp.data
+        })
+        this.dataProvince.patchValue('')
+    }
+
+    onProvinceChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+        this.service.getHospital(selectedValue).subscribe((resp: any) => {
+            this.hospital = resp.data
+        })
+        this.dataHospital.patchValue('')
+    }
+
+    onHospitalChange(event: MatSelectChange) {
+        const selectedValue = event.value;
+
+
     }
 
     public generateData(baseval, count, yrange) {

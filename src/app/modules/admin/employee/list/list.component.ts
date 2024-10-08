@@ -71,7 +71,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.loadTable();
@@ -99,7 +100,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                // เมื่อ Dialog ถูกปิด ดำเนินการตามผลลัพธ์ที่คุณได้รับจาก Dialog
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
             }
         });
     }

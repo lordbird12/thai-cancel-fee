@@ -13,8 +13,11 @@
     <div class="bg-card m-5 p-5 rounded-lg">
         <div class="flex justify-between">
             <div class="text-xl font-extrabold tracking-tight sm:ml-4">รายชื่อผู้ลงทะเบียน</div>
+           
+        </div>
+        <div class="flex justify-between">
             <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
                     <mat-select [formControl]="data" (selectionChange)="onKhetChange($event)">
                         <mat-option [value]="''">
                             เลือกเขต
@@ -24,7 +27,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
                     <mat-select [formControl]="dataProvince" (selectionChange)="onProvinceChange($event)">
                         <mat-option [value]="''">
                             เลือกจังหวัด
@@ -34,7 +37,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+                <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
                     <mat-select [formControl]="dataHospital" (selectionChange)="onHospitalChange($event)">
                         <mat-option [value]="''">
                             เลือกโรงพยาบาล
@@ -43,6 +46,16 @@
                             {{item.name}}
                         </mat-option>
                     </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline" [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-4 mt-5">
+                    <mat-label>วันที่</mat-label>
+                    <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
+                        <input matStartDate placeholder="วันที่เริ่ม" formControlName="startDate">
+                        <input matEndDate placeholder="วันที่สิ้นสุด" formControlName="endDate"
+                            (dateChange)="tranferData()">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
                 </mat-form-field>
                 <button class="ml-4 w-full rounded-md bg-[#229526] text-white" mat-flat-button (click)="export()">
                     <mat-icon [svgIcon]="'heroicons_outline:document-arrow-down'"></mat-icon>

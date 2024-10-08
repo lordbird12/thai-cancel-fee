@@ -3,7 +3,40 @@
     <div class="flex items-center" [formGroup]="form">
       <div
         class="px-6 grid items-center pt-5 gap-6 mb-3 shadow bg-card rounded-2xl w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <mat-form-field appearance="outline" class="w-full">
+        <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers"
+          class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+          <mat-select [formControl]="data" (selectionChange)="onKhetChange($event)">
+            <mat-option [value]="''">
+              เลือกเขต
+            </mat-option>
+            <mat-option *ngFor="let item of this.khet;" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers"
+          class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+          <mat-select [formControl]="dataProvince" (selectionChange)="onProvinceChange($event)">
+            <mat-option [value]="''">
+              เลือกจังหวัด
+            </mat-option>
+            <mat-option *ngFor="let item of this.province;" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="this.userdata.username == 'admin'" [ngClass]="formFieldHelpers"
+          class="fuse-mat-dense min-w-56 px-2 items-center mt-5">
+          <mat-select [formControl]="dataHospital" (selectionChange)="onHospitalChange($event)">
+            <mat-option [value]="''">
+              เลือกโรงพยาบาล
+            </mat-option>
+            <mat-option *ngFor="let item of this.hospital;" [value]="item.id">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" [ngClass]="formFieldHelpers" class="fuse-mat-dense min-w-56 px-4 mt-5">
           <mat-label>วันที่</mat-label>
           <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
             <input matStartDate placeholder="วันที่เริ่ม" formControlName="startDate">
@@ -11,16 +44,6 @@
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-select [formControlName]="'branchIds'" multiple (selectionChange)="selectionBranchChanged($event.value)">
-            <mat-option [disabled]="true" value="">กรุณาเลือกโรงพยาบาล</mat-option>
-            <mat-option value="all">เลือกทั้งหมด</mat-option>
-            <mat-option *ngFor="let branch of branchesData" [value]="branch.id">
-              {{branch.name}}
-            </mat-option>
-          </mat-select>
-          <mat-error class="text-xs">กรุณาเลือกสาขาอย่างน้อย 1 สาขา</mat-error>
         </mat-form-field>
       </div>
     </div>

@@ -15,14 +15,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:sun',
         link: '/admin/estimate/list',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.username === 'admin') {
+                return false;
+            } else {
+                return true;
+            }
+        },
     },
-    // {
-    //     id: 'admin.estimate-check',
-    //     title: 'รายการประเมิน',
-    //     type: 'basic',
-    //     icon: 'heroicons_outline:newspaper',
-    //     link: '/admin/estimate-check/list',
-    // },
     {
         id: 'admin.member',
         title: 'ผู้ลงทะเบียน',
@@ -36,6 +37,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:home-modern',
         link: '/admin/khet/list',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.username === 'admin') {
+                return false;
+            } else {
+                return true;
+            }
+        },
     },
     {
         id: 'admin.province',
@@ -43,6 +52,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:building-library',
         link: '/admin/province/list',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.username === 'admin') {
+                return false;
+            } else {
+                return true;
+            }
+        },
     },
     {
         id: 'admin.hospital',
@@ -50,6 +67,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:building-office-2',
         link: '/admin/hospital/list',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.username === 'admin') {
+                return false;
+            } else {
+                return true;
+            }
+        },
     },
     {
         id: 'admin.hospital',
@@ -57,6 +82,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'heroicons_outline:user',
         link: '/admin/employee/list',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.username === 'admin') {
+                return false;
+            } else {
+                return true;
+            }
+        },
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [

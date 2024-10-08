@@ -10,7 +10,9 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
+    FormBuilder,
     FormControl,
+    FormGroup,
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -66,25 +68,38 @@ export class ListComponent implements OnInit, AfterViewInit {
     khet: any[];
     province: any[];
     hospital: any[];
-    id:number;
+    id: number;
     data = new FormControl('');
     dataProvince = new FormControl('');
     dataHospital = new FormControl('');
     public dataRow: any[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
+    userdata: any;
+    form: FormGroup;
+
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: PageService
-    ) { }
+        private _service: PageService,
+        private fb: FormBuilder,
+    ) {
+        this.userdata = JSON.parse(localStorage.getItem('user'))
+    }
 
     ngOnInit() {
+        this.form = this.fb.group({
+            startDate: new Date(),
+            endDate: new Date(),
+            //all: false,
+            branchIds: [['']]
+        })
+
         this.loadTable();
         this._service.getKhet().subscribe((resp: any) => {
             this.khet = resp.data
         })
-        
+
         // this._service.getHospital().subscribe((resp: any) => {
         //     this.hospital = resp.data
         // })
@@ -217,6 +232,13 @@ export class ListComponent implements OnInit, AfterViewInit {
         const selectedValue = event.value;
         this.id = selectedValue;
         this.rerender()
-    
+
+    }
+
+    tranferData() {
+        if (this.form.value.startDate && this.form.value.endDate) {
+            let formvalue = this.form.value
+            console.log(formvalue);
+        }
     }
 }

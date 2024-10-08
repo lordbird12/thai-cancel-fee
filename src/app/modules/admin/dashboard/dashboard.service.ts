@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+const token = localStorage.getItem('accessToken') || null;
+import { environment } from 'environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +12,58 @@ export class DashboardService {
   private _dashboardData: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private _branchNames: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  private _data: BehaviorSubject<any | null> = new BehaviorSubject(null);
+
+  /**
+   * Constructor
+   */
+
+  httpOptionsFormdata = {
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+  };
 
   getBranchNames(): Observable<string[]> {
-    return this.http.get<any[]>('/api/branch').pipe(
+    return this.http.get<any[]>('/api/hospital').pipe(
       tap(data => this._branchNames.next(data.map(item => item.name))),
       map(data => data.map(item => item.name))
     );
   }
 
+  getKhet(): Observable<any> {
+    return this.http
+      .get<any>(environment.baseURL + '/api/get_khet')
+      .pipe(
+        tap((result) => {
+          this._data.next(result);
+        })
+      );
+  }
+
+  getProvince(id: any): Observable<any> {
+    return this.http
+      .get<any>(environment.baseURL + '/api/get_province/' + id
+      )
+      .pipe(
+        tap((result) => {
+          this._data.next(result);
+        })
+      );
+  }
+
+  getHospital(id: any): Observable<any> {
+    return this.http
+      .get<any>(environment.baseURL + '/api/get_hospital/' + id)
+      .pipe(
+        tap((result) => {
+          this._data.next(result);
+        })
+      );
+  }
+
   getDashboard(): Observable<any> {
-    const branchId = localStorage.getItem('branch');
+    const branchId = localStorage.getItem('hospital');
     return this.http.get<any>('/api/dashboard', { params: { branchId } }).pipe(
       tap(data => this._dashboardData.next(data)),
       map(data => data)
@@ -28,7 +71,7 @@ export class DashboardService {
   }
 
   getBranch(): Observable<string[]> {
-    return this.http.get<any[]>('/api/branch')
+    return this.http.get<any[]>('/api/hospital')
   }
 
   getDashboardOverview(data: any): Observable<any> {

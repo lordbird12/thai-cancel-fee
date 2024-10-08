@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
     {
         path: 'signed-in-redirect',
         pathMatch: 'full',
-        redirectTo: 'admin/dashboard',
+        redirectTo: 'dashboard',
     },
 
     // Auth routes for guests

@@ -68,7 +68,7 @@ export class PageService {
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/update_user/' + id, data)
+            .put<any>(environment.baseURL + '/api/user/' + id, data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
